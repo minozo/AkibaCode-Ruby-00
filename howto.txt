@@ -1,0 +1,77 @@
+rails new AkibaCode-Ruby-00 --skip-bundle
+
+add to Gemfile
+gem 'awesome_nested_set'
+gem "carrierwave"
+gem 'rmagick'
+
+rails g scaffold topic title:string body:text attach:string parent_id:integer lft:integer rgt:integer depth:integer children_count:integer
+
+rake db:migrate
+
+add to topic.rb(model)
+acts_as_nested_set
+
+rails c 
+
+
+# ルートノードを作成
+root = Topic.create(title: 'First Topic')
+
+# 子ノードを作成
+child1 = root.children.create(title: '子トピック１')
+child2 = root.children.create(title: '子トピック２')
+
+# ノードを作成し、子ノードに接続する
+grandchild = Topic.create(title: '孫トピック')
+grandchild.move_to_child_of(child1)
+
+# 子ノードを取得
+root.children
+
+
+# 兄弟ノードを取得
+child1.siblings
+
+# 階層を取得
+child1.level
+
+# 作成されたツリー
+root
+
+
+rails s 
+一通りscaffoldを試す
+
+views/_form.html.erb
+lft,rgt,parent_id,depth の項目削除
+
+views/topics/
+
+  <% nested_set_options(@topics) { |i| "#{'–' * i.level} #{i.title}" }.each do |title, id| %>
+    <tr>
+      <td><%= title %></td>
+      <td><%= link_to 'Show', category_path(id) %></td>
+      <td><%= link_to 'Edit', edit_category_path(id) %></td>
+      <td><%= link_to 'Destroy', category_path(id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+
+rails generate uploader Attach
+
+
+# for carrierwave
+include CarrierWave::RMagick
+version thumb
+コメントアウト
+
+_form.html.erb
+のattachを下記に修正
+<p>
+  <strong>Attach:</strong>
+  <%= image_tag @topic.attach_url(:thumb) %>
+</p>
+
+public/images/fallback/thumb_default.png
+を設置する
+
