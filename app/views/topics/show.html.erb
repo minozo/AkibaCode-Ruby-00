@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @topic.title %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @topic.body %>
+</p>
+
+<p>
+  <strong>Attach:</strong>
+  <%= @topic.attach %>
+</p>
+
+<p>
+  <strong>Parent:</strong>
+  <%= @topic.parent_id %>
+</p>
+
+<p>
+  <strong>Lft:</strong>
+  <%= @topic.lft %>
+</p>
+
+<p>
+  <strong>Rgt:</strong>
+  <%= @topic.rgt %>
+</p>
+
+<p>
+  <strong>Depth:</strong>
+  <%= @topic.depth %>
+</p>
+
+
+<p>
+  <strong>Depth:</strong>
+  <%= image_tag @topic.attach_url(:thumb) %>
+</p>
+
+<p>
+  <strong>Children count:</strong>
+  <%= @topic.children_count %>
+</p>
+
+<%= link_to 'Edit', edit_topic_path(@topic) %> |
+<%= link_to 'Back', topics_path %>

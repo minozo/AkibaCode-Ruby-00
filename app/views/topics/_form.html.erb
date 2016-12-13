@@ -1,0 +1,37 @@
+<%= form_for(topic) do |f| %>
+  <% if topic.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(topic.errors.count, "error") %> prohibited this topic from being saved:</h2>
+
+      <ul>
+      <% topic.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+  </div>
+
+  <div class="field">
+    <%= f.label :attach %>
+    <%= f.file_field :attach %>
+  </div>
+
+  <div class="field">
+    <%= f.label :parent_id %><br>
+    <%= f.select :parent_id, nested_set_options(Topic) {|i| "#{'-' * i.level} #{i.title}" }, { selected: @topic.parent_id, include_blank: true } %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
